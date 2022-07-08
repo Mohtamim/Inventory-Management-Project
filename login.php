@@ -1,3 +1,30 @@
+<?php
+session_start();
+$_SESSION['user']='';
+$_SESSION['userId']='';
+include 'auth/config.php';
+$conn = connect();
+if (isset($_POST['submit'])) {
+    $uName = $_POST['uName'];
+    $password = $_POST['password'];
+
+        $sql = "SELECT * FROM  users_info WHERE uName = '$uName' and password = '$password'";
+        $request = mysqli_query($conn, $sql);
+        if(mysqli_num_rows($request) ==1){
+            $user=mysqli_fetch_assoc($request);
+            $_SESSION['user'] = $user['name'];
+            $_SESSION['userId'] = $user['id'];
+            
+            header("Location:dashboard.php");
+        } else {
+            echo "Login Info Mismatch: " . mysqli_error($conn);
+        }
+
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,62 +36,37 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-<form>
-  <!-- Email input -->
-  <div class="form-outline mb-4">
-    <input type="email" id="form2Example1" class="form-control" />
-    <label class="form-label" for="form2Example1">Email address</label>
-  </div>
 
-  <!-- Password input -->
-  <div class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" />
-    <label class="form-label" for="form2Example2">Password</label>
-  </div>
+    <form method="post" action="" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Personal Info:</legend>
+            <div class="container form-group">
+                <h1>Registation Form</h1>
+                <!-- Email input -->
+                <div>
+                    <label>Your Username</label>
+                    <input type="text" class="form-control" name="uName" id="uName" placeholder="Enter Your User Name" required>
+                </div>
+                <div>
+                    <label>Your Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Your Password" required>
+                </div><br>
 
-  <!-- 2 column grid layout for inline styling -->
-  <div class="row mb-4">
-    <div class="col d-flex justify-content-center">
-      <!-- Checkbox -->
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-        <label class="form-check-label" for="form2Example31"> Remember me </label>
-      </div>
-    </div>
+                <!-- Submit button -->
+                <button type="submit" name="submit" id="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
 
-    <div class="col">
-      <!-- Simple link -->
-      <a href="#!">Forgot password?</a>
-    </div>
-  </div>
+                <!-- Register buttons -->
+                <div class="text-center">
+                    <p>Not a member? <a href="register.php">Register</a></p>
+                </div>
+            </div>
+        </fieldset>
+    </form>
 
-  <!-- Submit button -->
-  <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
-
-  <!-- Register buttons -->
-  <div class="text-center">
-    <p>Not a member? <a href="#!">Register</a></p>
-    <p>or sign up with:</p>
-    <button type="button" class="btn btn-link btn-floating mx-1">
-      <i class="fab fa-facebook-f"></i>
-    </button>
-
-    <button type="button" class="btn btn-link btn-floating mx-1">
-      <i class="fab fa-google"></i>
-    </button>
-
-    <button type="button" class="btn btn-link btn-floating mx-1">
-      <i class="fab fa-twitter"></i>
-    </button>
-
-    <button type="button" class="btn btn-link btn-floating mx-1">
-      <i class="fab fa-github"></i>
-    </button>
-  </div>
-</form>
 </body>
 
 </html>

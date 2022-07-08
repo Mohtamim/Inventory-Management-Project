@@ -13,8 +13,19 @@
 </head>
 
 <body>
-<div class="container">
-    <h1 class="h1 text-centered">Welcome to Inventory management System</h1>
+<div class="container col-md-12 text-center">
+    <h1 class="h1 text-center">Welcome to Inventory management System</h1>
+
+<div class="pt-2 py-2 ">
+    <a href="login.php">
+        <input type="button" class="btn btn-danger" value="Login">
+    </a>
+</div><br>
+<div class="pt-2 py-2">
+    <a href="register.php">
+        <input type="button" class="btn btn-danger" value="Register">
+    </a>
+</div>
 </div>
 </body>
 
